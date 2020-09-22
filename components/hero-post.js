@@ -17,7 +17,7 @@ export default function HeroPost({ title, coverImage, date, excerpt, author, slu
                 <a className="hover:underline">{title}</a>
               </Link>
             ) : (
-              <Link as={`/posts/${slug}`} href="/posts/[slug]">
+              <Link as={`/ssg/${slug}`} href="/ssg/[slug]">
                 <a className="hover:underline">{title}</a>
               </Link>
             )}

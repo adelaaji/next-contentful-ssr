@@ -3,3 +3,29 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+
+
+.loading {
+    color: #228;
+    font-size: 20px;
+    padding: 20px;
+
+}
+
+.qoutes-container h1 {
+    font-size: 30px;
+
+}
+
+.qoutes-container h1 span {
+    color: #999;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0 20px;
+}
+
+.list-qoutes ol {
+    list-style: number !important;
+
+}

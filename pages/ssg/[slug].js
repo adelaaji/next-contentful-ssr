@@ -11,11 +11,21 @@ import Layout from "../../components/layout";
 import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/api";
 import PostTitle from "../../components/post-title";
 import { CMS_NAME } from "../../lib/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 export default function Post({ post, morePosts, preview }) {
+  const [qoutes, setqoutes] = useState(null);
+
+  const loadQoutes = () => {
+    setqoutes(null);
+    Axios.get("http://www.randomtext.me/api/ol-6/3-5").then((response) => {
+      setqoutes(response.data.text_out);
+    });
+  };
   useEffect(() => {
-    console.log("EFFECT");
+    loadQoutes();
+
     return () => {
       // cleanup;
     };
@@ -45,6 +55,7 @@ export default function Post({ post, morePosts, preview }) {
                 </title>
                 <meta property="og:image" content={post.coverImage.url} />
               </Head>
+
               <PostHeader title={post.title} coverImage={post.coverImage} date={post.date} author={post.author} />
               {console.log("render body", post.author.name)}
               <PostBody content={post.content} />
@@ -52,8 +63,22 @@ export default function Post({ post, morePosts, preview }) {
                 Alert Author Name
               </button>
             </article>
-            <SectionSeparator />
-            {morePosts && morePosts.length > 0 && <MoreStories posts={morePosts} />}
+            {/* <SectionSeparator />
+            {morePosts && morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
+
+            <hr className="mt-4" />
+            <div className="p-5 qoutes-container">
+              <h1 className="h1">
+                Dynamic Qoutes <span onClick={() => loadQoutes()}>Load more </span>
+              </h1>
+              {qoutes == null ? (
+                <div className="loading">loading..</div>
+              ) : (
+                <div className="p-5">
+                  <div className="list-qoutes" dangerouslySetInnerHTML={{ __html: qoutes }} />
+                </div>
+              )}
+            </div>
           </>
         )}
       </Container>
@@ -76,7 +101,7 @@ export async function getStaticProps({ params, preview = false }) {
 export async function getStaticPaths() {
   const allPosts = await getAllPostsWithSlug();
   return {
-    paths: allPosts?.map(({ slug }) => `/posts/${slug}`) ?? [],
+    paths: allPosts?.map(({ slug }) => `/ssg/${slug}`) ?? [],
     fallback: false,
   };
 }

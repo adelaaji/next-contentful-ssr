@@ -19,7 +19,7 @@ export default function Post({ post, morePosts, preview }) {
 
   const loadQoutes = () => {
     setqoutes(null);
-    Axios.get("http://www.randomtext.me/api/ol-6/3-5").then((response) => {
+    Axios.get("https://www.randomtext.me/api/ol-6/3-5").then((response) => {
       setqoutes(response.data.text_out);
     });
   };

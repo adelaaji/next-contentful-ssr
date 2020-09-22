@@ -11,8 +11,19 @@ import Layout from "../../components/layout";
 import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/api";
 import PostTitle from "../../components/post-title";
 import { CMS_NAME } from "../../lib/constants";
+import { useEffect } from "react";
 
 export default function Post({ post, morePosts, preview }) {
+  useEffect(() => {
+    console.log("EFFECT");
+    return () => {
+      // cleanup;
+    };
+  }, []);
+  const getData = (author) => {
+    console.log("post.author", post.author);
+    alert("author : " + author);
+  };
   const router = useRouter();
 
   if (!router.isFallback && !post) {
@@ -35,7 +46,11 @@ export default function Post({ post, morePosts, preview }) {
                 <meta property="og:image" content={post.coverImage.url} />
               </Head>
               <PostHeader title={post.title} coverImage={post.coverImage} date={post.date} author={post.author} />
+              {console.log("render body", post.author.name)}
               <PostBody content={post.content} />
+              <button className="p-4 bg-black text-white" onClick={() => getData(post.author.name)}>
+                Alert Author Name
+              </button>
             </article>
             <SectionSeparator />
             {morePosts && morePosts.length > 0 && <MoreStories posts={morePosts} />}
@@ -62,6 +77,6 @@ export async function getStaticPaths() {
   const allPosts = await getAllPostsWithSlug();
   return {
     paths: allPosts?.map(({ slug }) => `/posts/${slug}`) ?? [],
-    fallback: false,
+    fallback: true,
   };
 }

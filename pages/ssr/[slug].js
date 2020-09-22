@@ -11,8 +11,26 @@ import Layout from "../../components/layout";
 import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/api";
 import PostTitle from "../../components/post-title";
 import { CMS_NAME } from "../../lib/constants";
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 export default function PostSSR({ post, morePosts, preview }) {
+  const [qoutes, setqoutes] = useState(null);
+
+  const loadQoutes = () => {
+    setqoutes(null);
+    Axios.get("http://www.randomtext.me/api/ol-6/3-5").then((response) => {
+      setqoutes(response.data.text_out);
+    });
+  };
+  useEffect(() => {
+    loadQoutes();
+
+    return () => {
+      // cleanup;
+    };
+  }, []);
+
   const router = useRouter();
 
   if (!router.isFallback && !post) {
@@ -42,6 +60,14 @@ export default function PostSSR({ post, morePosts, preview }) {
           </>
         )}
       </Container>
+
+      {qoutes == null ? (
+        <div className="loading">loading..</div>
+      ) : (
+        <div className="p-5">
+          <div className="list-qoutes" dangerouslySetInnerHTML={{ __html: qoutes }} />
+        </div>
+      )}
     </Layout>
   );
 }

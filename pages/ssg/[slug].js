@@ -24,6 +24,8 @@ export default function Post({ post, morePosts, preview }) {
     });
   };
   useEffect(() => {
+    //load Janus
+
     loadQoutes();
 
     return () => {
@@ -95,6 +97,7 @@ export async function getStaticProps({ params, preview = false }) {
       post: data?.post ?? null,
       morePosts: data?.morePosts ?? null,
     },
+    revalidate: 1,
   };
 }
 

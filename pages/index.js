@@ -29,12 +29,13 @@ export default function Index({ preview, allPosts }) {
             />
           )}
 
+          {/*
           <hr />
           <hr />
           <hr />
           <br />
           <br />
-          {heroPost && (
+           {heroPost && (
             <HeroPost
               title={heroPost.title}
               coverImage={heroPost.coverImage}
@@ -44,7 +45,7 @@ export default function Index({ preview, allPosts }) {
               excerpt={heroPost.excerpt}
               ssr
             />
-          )}
+          )} */}
 
           {morePosts.length > 0 && <MoreStories posts={morePosts} />}
         </Container>
